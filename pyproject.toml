@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "acadpy"
+version = "0.1.0"
+description = "Lightweight Python drawing API for a running AutoCAD 2027"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = ["pywin32>=308; sys_platform == 'win32'"]
+classifiers = [
+    "Operating System :: Microsoft :: Windows",
+    "Programming Language :: Python :: 3",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<10"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["acadpy*"]
