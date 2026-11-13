@@ -1,6 +1,6 @@
 # acadpy
 
-輕量 Python AutoCAD 繪圖函式庫，透過 `pywin32` 直接呼叫 ActiveX API。這個套件會自動連接已開啟的 Windows AutoCAD 2027，並且繪圖。
+輕量 Python AutoCAD 繪圖函式庫，透過 `pywin32` 直接呼叫 ActiveX API。這個套件會自動連接已開啟的 Windows AutoCAD 2026，並且繪圖。
 
 ## 安裝
 
@@ -16,7 +16,7 @@ python -m pip install -e .
 
 ## 使用
 
-先開啟 AutoCAD 2027 與要繪圖的圖檔，再執行：
+先開啟 AutoCAD 2026 與要繪圖的圖檔，再執行：
 
 ```python
 from acadpy import AutoCAD
@@ -59,7 +59,7 @@ with AutoCAD() as cad:
 
 開放折線至少兩個不同頂點，封閉折線至少三個不同頂點；`closed` 必須是布林值。封閉時可重複首點作為末點，函式會移除該重複點並設定 `Closed=True`。拒絕相鄰重複頂點、非有限數值、非正半徑、零長線與零面積矩形。這是基本幾何驗證，不檢查折線自交。
 
-`AutoCAD(document=None)` 固定綁定連線時的 ActiveDocument；亦可傳入已開啟圖檔名稱 `AutoCAD(document="Drawing1.dwg")`。後續手動切換作用中圖檔不會改變繪圖目標。`cad.app`、`cad.doc`、`cad.modelspace` 可存取底層物件。連線失敗拋出 `AutoCADConnectionError`，參數錯誤拋出 `ValueError`，AutoCAD 執行錯誤保留原始 COM 例外。多個 AutoCAD 2027 程序時，COM 會使用 ROT 中先找到的實例；需要確定目標時請保留單一程序。
+`AutoCAD(document=None)` 使用 `AutoCAD.Application.25.1` 連接 AutoCAD 2026，固定綁定連線時的 ActiveDocument；亦可傳入已開啟圖檔名稱 `AutoCAD(document="Drawing1.dwg")`。後續手動切換作用中圖檔不會改變繪圖目標。`cad.app`、`cad.doc`、`cad.modelspace` 可存取底層物件。連線失敗拋出 `AutoCADConnectionError`，參數錯誤拋出 `ValueError`，AutoCAD 執行錯誤保留原始 COM 例外。多個 AutoCAD 2026 程序時，COM 會使用 ROT 中先找到的實例；需要確定目標時請保留單一程序。
 
 `line()` 與 `next_line()` 可指定 `return_points=True`，同時取得物件與新線段的起終點：
 
@@ -102,7 +102,7 @@ with AutoCAD() as cad:
 python -m pip install -e ".[dev]"
 python -m pytest -q
 
-# 實機測試：先開啟 AutoCAD 2027；新增獨立測試圖檔，結束時不儲存並還原原作用中圖檔
+# 實機測試：先開啟 AutoCAD 2026；新增獨立測試圖檔，結束時不儲存並還原原作用中圖檔
 $env:ACADPY_INTEGRATION = "1"
 python -m pytest tests/test_acadpy_integration.py -q
 Remove-Item Env:ACADPY_INTEGRATION
@@ -112,7 +112,8 @@ Remove-Item Env:ACADPY_INTEGRATION
 
 ## ActiveX 參考
 
-- [Application](https://help.autodesk.com/cloudhelp/2027/ENU/AutoCAD-ActiveX-Reference/files/GUID-0225808C-8C91-407B-990C-15AB966FFFA8.htm)
+- [AutoCAD 2026 COM ProgID](https://help.autodesk.com/cloudhelp/2026/ENU/OARX-DevGuide-Managed/files/GUID-C8C65D7A-EC3A-42D8-BF02-4B13C2EA1A4B.htm)
+- [Application](https://help.autodesk.com/cloudhelp/2026/ENU/AutoCAD-ActiveX-Reference/files/GUID-0225808C-8C91-407B-990C-15AB966FFFA8.htm)
 - [AddLightWeightPolyline（OCS 與標高）](https://help.autodesk.com/cloudhelp/2019/CHT/AutoCAD-ActiveX-Reference/files/GUID-2003E0A1-5FB5-48A7-8CDA-2804F7C61C1C.htm)
 - [Add3DPoly（WCS）](https://help.autodesk.com/cloudhelp/2023/KOR/AutoCAD-ActiveX-Reference/files/GUID-21D7283A-552F-4DD8-BB4D-AEA1632186B9.htm)
 - [AddArc（底層弧度）](https://help.autodesk.com/cloudhelp/2022/ENU/AutoCAD-ActiveX-Reference/files/GUID-864A7E1F-D221-4C83-A4DB-F60C8E56FED6.htm)

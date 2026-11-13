@@ -12,7 +12,7 @@ from acadpy.types import doubles
 
 pytestmark = [
     pytest.mark.integration,
-    pytest.mark.skipif(os.environ.get("ACADPY_INTEGRATION") != "1", reason="Set ACADPY_INTEGRATION=1 to use a running AutoCAD 2027."),
+    pytest.mark.skipif(os.environ.get("ACADPY_INTEGRATION") != "1", reason="Set ACADPY_INTEGRATION=1 to use a running AutoCAD 2026."),
 ]
 
 
@@ -35,7 +35,7 @@ def cad():
 
 
 def test_real_entities_coordinates_and_layer(cad):
-    assert str(cad.app.Version).startswith("26.0")
+    assert str(cad.app.Version).startswith("25.1")
     cad.doc.Layers.Add("ACADPY_TEST")
     old_layer = cad.doc.ActiveLayer.Name
     line = cad.line((0, 0, 0), (100, 100, 50), layer="ACADPY_TEST")

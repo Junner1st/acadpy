@@ -25,4 +25,3 @@ with AutoCAD() as cad:
         
     cad.circle(end, radius=10)
     cad.next_line(segment, end=star_start)
-

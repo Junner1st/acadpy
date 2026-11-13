@@ -34,7 +34,7 @@ def com(monkeypatch):
 
 def test_attach_binds_once_and_close_is_idempotent(com):
     with AutoCAD() as cad:
-        com.client.GetActiveObject.assert_called_once_with("AutoCAD.Application.26")
+        com.client.GetActiveObject.assert_called_once_with("AutoCAD.Application.25.1")
         com.initialize.assert_called_once_with()
         assert cad.doc is com.doc
         assert cad.modelspace is com.doc.ModelSpace
@@ -55,7 +55,7 @@ def test_named_document(com):
 
 def test_not_running_has_clear_error_and_balances_com(com):
     com.client.GetActiveObject.side_effect = ComError(-2147221021)
-    with pytest.raises(AutoCADConnectionError, match="Open AutoCAD 2027"):
+    with pytest.raises(AutoCADConnectionError, match="Open AutoCAD 2026"):
         AutoCAD()
     com.uninitialize.assert_called_once()
 

@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "acadpy"
 version = "0.1.0"
-description = "Lightweight Python drawing API for a running AutoCAD 2027"
+description = "Lightweight Python drawing API for a running AutoCAD 2026"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = ["pywin32>=308; sys_platform == 'win32'"]

@@ -29,7 +29,7 @@ def _initialize_com():
 
 
 class AutoCAD(Drawing):
-    """Bind to the current document of an already running AutoCAD 2027.
+    """Bind to the current document of an already running AutoCAD 2026.
 
     Use on the creating thread. ``close()`` releases this client's COM references;
     it does not close AutoCAD or the document. Prefer use as a context manager.
@@ -52,11 +52,11 @@ class AutoCAD(Drawing):
             raise AutoCADConnectionError("Cannot initialize COM. Use acadpy on an STA thread.") from exc
         self._closed = False
         try:
-            # AutoCAD 2027 registers the major-version ProgID (.26).
-            self.app = win32com.client.GetActiveObject("AutoCAD.Application.26")
+            # Pin the minor version to avoid attaching to AutoCAD 2025 (.25.0).
+            self.app = win32com.client.GetActiveObject("AutoCAD.Application.25.1")
         except (pywintypes.com_error, OSError) as exc:
             self.close()
-            raise AutoCADConnectionError("Cannot attach to AutoCAD 2027. Open AutoCAD 2027 and a drawing first; acadpy never launches AutoCAD.") from exc
+            raise AutoCADConnectionError("Cannot attach to AutoCAD 2026. Open AutoCAD 2026 and a drawing first; acadpy never launches AutoCAD.") from exc
         try:
             self.doc = self._call(lambda: self.app.ActiveDocument if document is None else self.app.Documents.Item(document))
             self.modelspace = self._call(lambda: self.doc.ModelSpace)
