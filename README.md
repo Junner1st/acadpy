@@ -110,6 +110,20 @@ Remove-Item Env:ACADPY_INTEGRATION
 
 預設跳過實機測試。單元測試不需 AutoCAD，涵蓋參數驗證、COM 呼叫、圖層與連線生命週期；實機測試比對物件類型、座標、半徑、角度、封閉性與圖層。
 
+## 沒報錯但看不到物件
+
+在安裝 AutoCAD 2026 的電腦、專案根目錄執行：
+
+```powershell
+python examples/diagnose.py
+# 確認連線後，實際在目標圖檔新增一條 (0,0) → (100,0) 的 LINE 並刷新畫面
+python examples/diagnose.py --draw
+```
+
+終端與 `logs/diagnose.log` 會記錄 Python 路徑、載入的 acadpy 路徑、AutoCAD 版本、目標圖檔、目前配置及圖層、ModelSpace 物件數；繪圖模式另外記錄新物件的 Handle、座標與物件數變化。失敗時記錄完整 traceback 並以非零狀態結束。每次執行附加到同一份 log。
+
+若已記錄新 LINE 與 Handle，但畫面沒看到，先核對目標圖檔，再切換到「模型」頁籤、確認該圖層可見，執行 Zoom Extents（`_ZOOM`、`_E`）。診斷腳本預設只檢查連線；`--draw` 會保留新增的測試線，不自動儲存。
+
 ## ActiveX 參考
 
 - [AutoCAD 2026 COM ProgID](https://help.autodesk.com/cloudhelp/2026/ENU/OARX-DevGuide-Managed/files/GUID-C8C65D7A-EC3A-42D8-BF02-4B13C2EA1A4B.htm)
